@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		#div1{
+			width: 100px;height: 100px;background-color: red; margin: 0 auto;
+		}
+	</style>
+	<body>
+		<div id="div1" ></div>
+	</table>
+	</body>
+	<script>
+		function shake(e/*对象*/,oncomplete/*函数*/,distance/*震动距离*/,time/*震动时间*/){
+			if(typeof e === "string") e = document.getElementById("e");	//获取对象元素
+			if(!time) time = 500;	//如果未传入时间，默认500ms
+			if(!distance) distance = 5;	//默认移动距离5px；
+			var originalStyle = e.style.cssText;//储存原样式
+			e.style.position = "relative";//这点必须注意，只有使用相对定位之后才能抖动
+			var start = (new Date()).getTime();//获取其开始时间
+			animate();//执行动画
+			function animate(){
+				var now = (new Date()).getTime();//获取当前时间
+				var elapsed = now-start;//获取从开始以来的消耗时间
+				var fraction = elapsed/time;//获取时间比例
+				//通过正弦函数完成来回两次
+				if(fraction < 1){
+					var x = distance*Math.sin(fraction*4*Math.PI);//取得移动值
+					e.style.left = x+"px";//进行赋值设置左边距
+					//在25ms后或者最后的时间里触发animate函数
+					setTimeout(animate,Math.min(25,time-elapsed));
+				}else{//动画完成
+					e.style.cssText = originalStyle;//元素恢复原始位置
+					if(oncomplete) oncomplete(e);//如果有执行函数，便执行
+				}
+			}
+		}
+		shake(div1);                                                                                                                                                                                                                                                                                                                                                        
+//var x = 3;
+//var foo = {
+//	x:2,
+//	baz:{
+//		x:1,
+//		bar:function(){
+//			return this.x;
+//		}
+//	}
+//}
+//var go = foo.baz.bar;
+//console.log(go());
+//console.log(foo.baz.bar());
+
+//function fun1(){
+//	var n = 167;
+//	nAdd = function(){n++}
+//	function fun2(){
+//		return n;
+//	}
+//	return fun2;
+//}
+//var result = fun1();
+//var a = result();
+//nAdd();
+//var b = result();
+//console.log(a);
+//console.log(b);
+	</script>
+</html>
